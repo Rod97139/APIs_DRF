@@ -1,5 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.db import transaction
+from rest_framework.decorators import action
  
 from shop.models import Category, Product, Article
 from shop.serializers import CategoryDetailSerializer, ProductDetailSerializer, ProductListSerializer, ArticleSerializer, CategoryListSerializer
@@ -18,6 +20,12 @@ class MultipleSerializerMixin:
     
 
 class CategoryViewset(MultipleSerializerMixin, ReadOnlyModelViewSet):
+
+    @action(detail=True, methods=['post'])
+    def disable(self, request, pk):
+        # Nous pouvons maintenant simplement appeler la méthode disable
+        self.get_object().disable()
+        return Response()
  
     serializer_class = CategoryListSerializer
     # Ajoutons un attribut de classe qui nous permet de définir notre serializer de détail
@@ -28,6 +36,12 @@ class CategoryViewset(MultipleSerializerMixin, ReadOnlyModelViewSet):
  
     
 class ProductViewset(MultipleSerializerMixin, ReadOnlyModelViewSet):
+
+    @action(detail=True, methods=['post'])
+    def disable(self, request, pk):
+        # Nous pouvons maintenant simplement appeler la méthode disable
+        self.get_object().disable()
+        return Response()
  
     serializer_class = ProductListSerializer
     # Ajoutons un attribut de classe qui nous permet de définir notre serializer de détail
