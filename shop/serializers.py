@@ -15,7 +15,13 @@ class ArticleSerializer(ModelSerializer):
 
                    ]
         
-class ProductSerializer(ModelSerializer):
+class ProductListSerializer (ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            'id','date_created', 'date_updated', 'name', 'category'
+        ]
+class ProductDetailSerializer(ModelSerializer):
     
     articles = serializers.SerializerMethodField()
     class Meta:
@@ -38,7 +44,14 @@ class ProductSerializer(ModelSerializer):
         # la propriété '.data' est le rendu de notre serializer que nous retournons ici
         return serializer.data
          
-class CategorySerializer(ModelSerializer):
+
+class CategoryListSerializer (ModelSerializer):
+    class Meta:
+        model = Category
+        fields = [
+            'id','date_created', 'date_updated', 'name'
+        ]
+class CategoryDetailSerializer(ModelSerializer):
   # Nous redéfinissons l'attribut 'product' qui porte le même nom que dans la liste des champs à afficher
     # en lui précisant un serializer paramétré à 'many=True' car les produits sont multiples pour une catégorie
     # products = ProductSerializer(many=True)
@@ -60,7 +73,7 @@ class CategorySerializer(ModelSerializer):
         # On applique le filtre sur notre queryset pour n'avoir que les produits actifs
         queryset = instance.products.filter(active=True)
         # Le serializer est créé avec le queryset défini et toujours défini en tant que many=True
-        serializer = ProductSerializer(queryset, many=True)
+        serializer = ProductDetailSerializer(queryset, many=True)
         # la propriété '.data' est le rendu de notre serializer que nous retournons ici
         return serializer.data
         

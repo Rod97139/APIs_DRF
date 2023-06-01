@@ -23,6 +23,7 @@ router.register(r'users', UserViewSet)
 router.register('category', CategoryViewset, basename='category')
 router.register('product', ProductViewset, basename='product')
 router.register('article', ArticleViewset, basename='article')
+# router.register('test', TestView.as_view(), basename='test')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
@@ -32,7 +33,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # path('api/category/', CategoryAPIView.as_view()),
     # path('api/product/', ProductAPIView.as_view()),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
 ]
 
 # # urlpatterns = [

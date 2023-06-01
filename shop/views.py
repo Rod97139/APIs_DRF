@@ -2,21 +2,36 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
  
 from shop.models import Category, Product, Article
-from shop.serializers import CategorySerializer, ProductSerializer, ArticleSerializer
+from shop.serializers import CategoryDetailSerializer, ProductDetailSerializer, ProductListSerializer, ArticleSerializer, CategoryListSerializer
 
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
  
  
-class CategoryViewset(ReadOnlyModelViewSet):
+class MultipleSerializerMixin:
+
+    detail_serializer_class = None
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve' and self.detail_serializer_class is not None:
+            return self.detail_serializer_class
+        return super().get_serializer_class()
+    
+
+class CategoryViewset(MultipleSerializerMixin, ReadOnlyModelViewSet):
  
-    serializer_class = CategorySerializer
+    serializer_class = CategoryListSerializer
+    # Ajoutons un attribut de classe qui nous permet de définir notre serializer de détail
+    detail_serializer_class = CategoryDetailSerializer
  
     def get_queryset(self):
         return Category.objects.filter(active=True)
  
-class ProductViewset(ReadOnlyModelViewSet):
+    
+class ProductViewset(MultipleSerializerMixin, ReadOnlyModelViewSet):
  
-    serializer_class = ProductSerializer
+    serializer_class = ProductListSerializer
+    # Ajoutons un attribut de classe qui nous permet de définir notre serializer de détail
+    detail_serializer_class = ProductDetailSerializer
  
     def get_queryset(self):
     # Nous récupérons tous les produits dans une variable nommée queryset
@@ -39,6 +54,7 @@ class ArticleViewset(ReadOnlyModelViewSet):
         if product_id is not None:
             queryset = queryset.filter(product_id=product_id)
         return queryset
+        
  
 # class CategoryAPIView(APIView):
  
