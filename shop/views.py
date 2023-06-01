@@ -76,6 +76,13 @@ class AdminCategoryViewset(MultipleSerializerMixin, ModelViewSet):
  
     def get_queryset(self):
         return Category.objects.all()
+    
+
+class AdminArticleViewset(ModelViewSet):
+ 
+    serializer_class = ArticleSerializer
+ 
+    queryset =  Article.objects.all()
         
  
 # class CategoryAPIView(APIView):

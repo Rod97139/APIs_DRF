@@ -14,13 +14,22 @@ class ArticleSerializer(ModelSerializer):
                 'price',
 
                    ]
+      
+    def validate_price(self, value):
+        if value < 1:
+            raise serializers.ValidationError('Price must be greater than 1')
+        return value
+
+    def validate_product(self, value):
+        if value.active is False:
+            raise serializers.ValidationError('Inactive product')
+        return value
         
 class ProductListSerializer (ModelSerializer):
     class Meta:
         model = Product
-        fields = [
-            'id','date_created', 'date_updated', 'name', 'category'
-        ]
+        fields = ['id', 'date_created', 'date_updated', 'name', 'category', 'ecoscore']
+        
 class ProductDetailSerializer(ModelSerializer):
     
     articles = serializers.SerializerMethodField()
@@ -43,6 +52,7 @@ class ProductDetailSerializer(ModelSerializer):
         serializer = ArticleSerializer(queryset, many=True)
         # la propriété '.data' est le rendu de notre serializer que nous retournons ici
         return serializer.data
+   
          
 
 class CategoryListSerializer (ModelSerializer):
