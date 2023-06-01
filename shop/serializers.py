@@ -16,5 +16,5 @@ class ProductSerializer(ModelSerializer):
         fields = ['id', 'name',
                 #    'date_created',
                 'date_updated',
-                'category_id'
+                'category'
                    ]
