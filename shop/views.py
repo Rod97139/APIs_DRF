@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from shop.permissions import IsAdminAuthenticated, IsStaffAuthenticated
  
 from shop.models import Category, Product, Article
 from shop.serializers import CategoryDetailSerializer, ProductDetailSerializer, ProductListSerializer, ArticleSerializer, CategoryListSerializer
@@ -75,7 +75,7 @@ class AdminCategoryViewset(MultipleSerializerMixin, ModelViewSet):
     serializer_class = CategoryListSerializer
     detail_serializer_class = CategoryDetailSerializer
         # Nous avons simplement à appliquer la permission sur le viewset
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsStaffAuthenticated]
  
     def get_queryset(self):
         return Category.objects.all()
