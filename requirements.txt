@@ -10,3 +10,4 @@ requests==2.31.0
 sqlparse==0.4.4
 tzdata==2023.3
 urllib3==2.0.2
+djangorestframework-simplejwt==5.2.2
