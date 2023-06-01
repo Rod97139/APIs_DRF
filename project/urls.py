@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 # from shop.views import CategoryAPIView, ProductAPIView
 
-from shop.views import CategoryViewset, ProductViewset
+from shop.views import CategoryViewset, ProductViewset, ArticleViewset
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -22,6 +22,7 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register('category', CategoryViewset, basename='category')
 router.register('product', ProductViewset, basename='product')
+router.register('article', ArticleViewset, basename='article')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
